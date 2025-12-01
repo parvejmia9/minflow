@@ -15,7 +15,7 @@ var DB *gorm.DB
 // ConnectDB initializes the database connection
 func ConnectDB() {
 	var dsn string
-	
+
 	// Check if DATABASE_URL exists (Render/Production)
 	databaseURL := os.Getenv("DATABASE_URL")
 	if databaseURL != "" {
@@ -54,7 +54,6 @@ func ConnectDB() {
 	env := getEnv("ENV", "development")
 	log.Printf("Database connected successfully! Environment: %s", env)
 }
-
 
 func getEnv(key, defaultValue string) string {
 	value := os.Getenv(key)

@@ -174,7 +174,7 @@ export default function AnalyticsPage() {
                     <ResponsiveContainer width="100%" height={300}>
                       <PieChart>
                         <Pie
-                          data={analytics.by_category}
+                          data={analytics.by_category as any}
                           dataKey="total"
                           nameKey="category_name"
                           cx="50%"
@@ -199,7 +199,7 @@ export default function AnalyticsPage() {
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Daily Expenses</h3>
                   {analytics.daily_expenses.length > 0 ? (
                     <ResponsiveContainer width="100%" height={300}>
-                      <BarChart data={analytics.daily_expenses}>
+                      <BarChart data={analytics.daily_expenses as any}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="date" />
                         <YAxis />
