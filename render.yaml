@@ -10,19 +10,10 @@ services:
       - key: PORT
         value: 10000
       - key: DATABASE_URL
-        fromDatabase:
-          name: minflow-db
-          property: connectionString
+        value: postgresql://neondb_owner:npg_1fwFzERuTS0n@ep-dark-cell-a408ungg-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require
       - key: JWT_SECRET
         generateValue: true
       - key: ALLOWED_ORIGINS
         value: https://minflow.app,https://www.minflow.app
       - key: ENV
         value: production
-    healthCheckPath: /api/categories
-
-databases:
-  - name: minflow-db
-    plan: free
-    databaseName: minflow
-    user: minflow
