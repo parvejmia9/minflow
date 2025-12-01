@@ -76,8 +76,15 @@ func main() {
 
 	// Middleware
 	app.Use(logger.New())
+	
+	// CORS configuration based on environment
+	allowedOrigins := os.Getenv("ALLOWED_ORIGINS")
+	if allowedOrigins == "" {
+		allowedOrigins = "*" // Development default
+	}
+	
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
+		AllowOrigins: allowedOrigins,
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 		AllowMethods: "GET, POST, PUT, DELETE, OPTIONS",
 	}))
@@ -88,8 +95,14 @@ func main() {
 	// Start server
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "4000"
+		port = "8080"
 	}
-	log.Printf("Server starting on :%s", port)
+	
+	env := os.Getenv("ENV")
+	if env == "" {
+		env = "development"
+	}
+	
+	log.Printf("Server starting on :%s (Environment: %s)", port, env)
 	log.Fatal(app.Listen(":" + port))
 }

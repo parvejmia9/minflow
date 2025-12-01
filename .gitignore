@@ -1,7 +1,9 @@
 # Environment files
 .env
 .env.local
-.env*.local
+.env.development.local
+.env.test.local
+# Keep .env.production for Vercel deployment
 
 # Go
 *.exe

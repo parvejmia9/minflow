@@ -17,6 +17,6 @@ WORKDIR /app
 
 COPY --from=builder /app/minflow .
 
-EXPOSE 8080
+EXPOSE 10000
 
 CMD ["./minflow"]
