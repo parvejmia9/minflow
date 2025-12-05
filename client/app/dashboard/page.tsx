@@ -11,13 +11,13 @@ export default function DashboardPage() {
 
   useEffect(() => {
     loadFromStorage();
-  }, [loadFromStorage]);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
+    
+    // Check authentication after loading from storage
+    const token = localStorage.getItem('token');
+    if (!token) {
       router.push('/auth/login');
     }
-  }, [isAuthenticated, router]);
+  }, [loadFromStorage, router]);
 
   const handleLogout = () => {
     logout();
@@ -85,7 +85,7 @@ export default function DashboardPage() {
                 </span>
               </div>
               <div className="mt-8">
-                <h3 className="text-lg font-medium">
+                <h3 className="text-lg font-medium text-black">
                   <span className="absolute inset-0" aria-hidden="true" />
                   Add Expense
                 </h3>
@@ -126,7 +126,7 @@ export default function DashboardPage() {
                 </span>
               </div>
               <div className="mt-8">
-                <h3 className="text-lg font-medium">
+                <h3 className="text-lg font-medium text-black">
                   <span className="absolute inset-0" aria-hidden="true" />
                   View Analytics
                 </h3>

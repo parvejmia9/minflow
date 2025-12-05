@@ -206,10 +206,10 @@ func (s *Service) GetAnalytics(query AnalyticsQuery) (*AnalyticsResult, error) {
 
 	// Get expenses by category
 	err = s.db.Model(&models.Expense{}).
-		Select("categories.id as category_id, categories.category_name, COALESCE(SUM(expenses.total), 0) as total, COUNT(expenses.id) as count").
+		Select("categories.id as category_id, categories.name as category_name, COALESCE(SUM(expenses.total), 0) as total, COUNT(expenses.id) as count").
 		Joins("LEFT JOIN categories ON categories.id = expenses.category_id").
 		Where("expenses.user_id = ? AND expenses.expense_date BETWEEN ? AND ?", query.UserID, query.StartDate, query.EndDate).
-		Group("categories.id, categories.category_name").
+		Group("categories.id, categories.name").
 		Order("total DESC").
 		Scan(&result.ByCategory).Error
 

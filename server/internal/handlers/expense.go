@@ -178,8 +178,11 @@ func (h *ExpenseHandler) GetAnalytics(c *fiber.Ctx) error {
 		})
 	}
 
-	// Set to end of day
-	endDate = endDate.Add(23*time.Hour + 59*time.Minute + 59*time.Second)
+	// Normalize to date only (midnight) for comparison
+	startDate = time.Date(startDate.Year(), startDate.Month(), startDate.Day(), 0, 0, 0, 0, time.UTC)
+	endDate = time.Date(endDate.Year(), endDate.Month(), endDate.Day(), 0, 0, 0, 0, time.UTC)
+	today := time.Now()
+	today = time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, time.UTC)
 
 	// Validate dates
 	if endDate.Before(startDate) {
@@ -190,12 +193,15 @@ func (h *ExpenseHandler) GetAnalytics(c *fiber.Ctx) error {
 	}
 
 	// Don't allow future dates
-	if endDate.After(time.Now()) {
+	if endDate.After(today) {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
 			"error":   "end_date cannot be in the future",
 		})
 	}
+
+	// Set end date to end of day for query
+	endDate = endDate.Add(23*time.Hour + 59*time.Minute + 59*time.Second)
 
 	query := expense.AnalyticsQuery{
 		UserID:    userID,

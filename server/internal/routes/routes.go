@@ -18,6 +18,7 @@ func SetupRoutes(
 	categoryHandler *handlers.CategoryHandler,
 	expenseHandler *handlers.ExpenseHandler,
 	userHandler *handlers.UserHandler,
+	aiExpenseHandler *handlers.AIExpenseHandler,
 ) {
 	api := app.Group("/api")
 
@@ -35,6 +36,9 @@ func SetupRoutes(
 
 	// Expense routes
 	SetupExpenseRoutes(protected, expenseHandler)
+
+	// AI Expense extraction route
+	protected.Post("/expenses/extract", aiExpenseHandler.ExtractExpenses)
 
 	// User routes (includes both user and admin routes)
 	SetupUserRoutes(protected, userHandler)

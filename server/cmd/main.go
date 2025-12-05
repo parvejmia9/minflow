@@ -19,9 +19,11 @@ import (
 )
 
 func main() {
-	// Load .env file
-	if err := godotenv.Load("../.env"); err != nil {
-		log.Println("Warning: .env file not found, using environment variables or defaults")
+	// Load .env file (try both locations for flexibility)
+	if err := godotenv.Load(".env"); err != nil {
+		if err := godotenv.Load("../.env"); err != nil {
+			log.Println("Warning: .env file not found, using environment variables or defaults")
+		}
 	}
 
 	// Connect to database
@@ -59,6 +61,7 @@ func main() {
 	categoryHandler := handlers.NewCategoryHandler(categoryService)
 	expenseHandler := handlers.NewExpenseHandler(expenseService)
 	userHandler := handlers.NewUserHandler(userService)
+	aiExpenseHandler := handlers.NewAIExpenseHandler()
 
 	// Create Fiber app
 	app := fiber.New(fiber.Config{
@@ -90,7 +93,7 @@ func main() {
 	}))
 
 	// Setup routes with handler dependencies
-	routes.SetupRoutes(app, authService, authHandler, categoryHandler, expenseHandler, userHandler)
+	routes.SetupRoutes(app, authService, authHandler, categoryHandler, expenseHandler, userHandler, aiExpenseHandler)
 
 	// Start server
 	port := os.Getenv("PORT")

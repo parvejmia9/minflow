@@ -17,3 +17,7 @@ services:
         value: https://minflow.app,https://www.minflow.app
       - key: ENV
         value: production
+      - key: AI_EXPENSE_API_KEY
+        sync: false  # Add this manually in Render dashboard
+      - key: AI_EXPENSE_API_URL
+        value: https://multi-service-chatbot.onrender.com/chat/expense_tracker/extract_expenses
